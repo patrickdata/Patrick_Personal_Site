@@ -2,15 +2,25 @@ from flask import Flask, request
 from flask import render_template
 import datetime
 import smtplib
+import requests
 
+posts = requests.get("https://api.npoint.io/1d04317701f97c4c226d", verify=False).json()
 app = Flask(__name__)
-OWN_EMAIL = "YOUR OWN EMAIL ADDRESS"
-OWN_PASSWORD = "YOUR EMAIL ADDRESS PASSWORD"
+OWN_EMAIL = "patricknguyen2507@gmail.com"
+OWN_PASSWORD = "Kia@23921"
 
 @app.route("/")
 def home():
     current_year = datetime.datetime.now().year
-    return render_template("index.html", year=current_year)
+    return render_template("index.html", year=current_year, all_posts=posts)
+
+@app.route("/blogdetails/<int:index>")
+def show_post(index):
+    requested_post = None
+    for blog_post in posts:
+        if blog_post["id"] == index:
+            requested_post = blog_post
+    return render_template("blogdetails.html", post=requested_post)
 
 @app.route("/", methods=["GET", "POST"])
 def receive_data():
