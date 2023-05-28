@@ -2,12 +2,15 @@ from flask import Flask, request
 from flask import render_template
 import datetime
 import smtplib
+import json
 import requests
 
-posts = requests.get("https://api.npoint.io/1d04317701f97c4c226d", verify=False).json()
+#posts = requests.get("https://api.npoint.io/1d04317701f97c4c226d", verify=False).json()
 app = Flask(__name__)
 OWN_EMAIL = "patricknguyen2507@gmail.com"
 OWN_PASSWORD = "Kia@23921"
+with open("blogdata.json", mode="r") as data_file:
+    posts = json.load(data_file)
 
 @app.route("/")
 def home():
