@@ -7,8 +7,8 @@ import requests
 
 #posts = requests.get("https://api.npoint.io/1d04317701f97c4c226d", verify=False).json()
 app = Flask(__name__)
-OWN_EMAIL = "patricknguyen2507@gmail.com"
-OWN_PASSWORD = "Kia@23921"
+username = "test"
+password = "test"
 with open("blogdata.json", mode="r") as data_file:
     posts = json.load(data_file)
 
@@ -35,10 +35,11 @@ def receive_data():
 
 def send_email(name, email, subject, message):
     email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nSubject: {subject}\nMessage:{message}"
-    with smtplib.SMTP("smtp.gmail.com") as connection:
-        connection.starttls()
-        connection.login(OWN_EMAIL, OWN_PASSWORD)
-        connection.sendmail(OWN_EMAIL, OWN_EMAIL, email_message)
+
+    server = smtplib.SMTP("smtp.mail.yahoo.com",587)
+    server.login(username,password)
+    server.sendmail(username, username,email_message)
+    server.quit()
 
 if __name__ == "__main__":
     app.run(debug=True)
